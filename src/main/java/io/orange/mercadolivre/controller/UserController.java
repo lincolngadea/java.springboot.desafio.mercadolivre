@@ -1,7 +1,8 @@
 package io.orange.mercadolivre.controller;
 
 import io.orange.mercadolivre.entity.User;
-import io.orange.mercadolivre.request.UserRequest;
+import io.orange.mercadolivre.request.NewUserRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,10 +23,10 @@ public class UserController {
     //Registration Block User
     @Transactional
     @PostMapping("/usuario")
-    public String saveUser(@RequestBody @Valid UserRequest userRequest){
+    public ResponseEntity<User> saveUser(@RequestBody @Valid NewUserRequest userRequest){
         User user = userRequest.toModel();
         manager.persist(user);
-        return user.toString();
+        return ResponseEntity.ok(user);
     }
     //Block End
 
