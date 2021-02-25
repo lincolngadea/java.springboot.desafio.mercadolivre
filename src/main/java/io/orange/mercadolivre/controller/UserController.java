@@ -4,14 +4,13 @@ import io.orange.mercadolivre.entity.User;
 import io.orange.mercadolivre.request.NewUserRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/mercadolivre")
@@ -28,7 +27,14 @@ public class UserController {
         manager.persist(user);
         return ResponseEntity.ok(user);
     }
-    //Block End
+
+    @GetMapping("/usuario")
+    public List<NewUserRequest> listUsers(){
+        return manager.createQuery("from User", User.class)
+                .getResultStream()
+                .map(NewUserRequest::new)
+                .collect(Collectors.toList());
+    }    //Block End
 
 
 }

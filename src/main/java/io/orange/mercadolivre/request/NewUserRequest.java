@@ -4,7 +4,6 @@ import io.orange.mercadolivre.entity.User;
 import io.orange.mercadolivre.validators.annotations.UniqueValue;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -26,6 +25,10 @@ public class NewUserRequest {
     public NewUserRequest(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public NewUserRequest(User user) {
+        this.username = user.getUsername();
     }
     //End Builder
 

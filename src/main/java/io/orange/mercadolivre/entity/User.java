@@ -11,7 +11,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String login;
+    private String username;
     private String password;
 
     @NotNull
@@ -21,16 +21,16 @@ public class User {
     public User(){}
 
     //Start Builder----------------------------------
-    public User(String login, String password) {
-        this.login = login;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
     }
     //Constructor End---------------------------------
 
     //Bock Getters------------------------------------
     public Long getId() { return id; }
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
     public String getPassword() {
         return password;
@@ -48,7 +48,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", login='" + login + '\'' +
+                ", login='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", localDateTime=" + localDateTime +
                 '}';
