@@ -22,9 +22,10 @@ public class NewUserRequest {
     public NewUserRequest(){}
 
     //Start Builder
-    public NewUserRequest(String username, String password) {
+
+    public NewUserRequest(@NotBlank @Email String username, @NotBlank @Size(min = 6) String password) {
         this.username = username;
-        this.password = ;
+        this.password = password;
     }
 
     public NewUserRequest(User user) {
