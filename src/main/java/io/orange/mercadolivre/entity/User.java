@@ -2,6 +2,9 @@ package io.orange.mercadolivre.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,7 +26,11 @@ public class User {
     //Start Builder----------------------------------
     public User(String username, String password) {
         this.username = username;
-        this.password = password;
+        try {
+            this.password = encryptPass(password);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
     //Constructor End---------------------------------
 
@@ -32,15 +39,18 @@ public class User {
     public String getUsername() {
         return username;
     }
-    public String getPassword() {
-        return password;
-    }
     public LocalDateTime getLocalDateTime() {
         return localDateTime;
     }
     //End Block Getters
 
-
+    //Encrypt password
+    public String encryptPass(String password) throws NoSuchAlgorithmException {
+        MessageDigest safeBox = MessageDigest.getInstance("MD5");
+        safeBox.update(password.getBytes(),0,password.length());
+        return new BigInteger(1,safeBox.digest()).toString(16);
+    }
+    //End encrypt password
 
 
     //ToString Block---------------------------------
