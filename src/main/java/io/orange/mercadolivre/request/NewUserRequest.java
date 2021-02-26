@@ -24,7 +24,7 @@ public class NewUserRequest {
     //Start Builder
     public NewUserRequest(String username, String password) {
         this.username = username;
-        this.password = password;
+        this.password = ;
     }
 
     public NewUserRequest(User user) {

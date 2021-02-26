@@ -26,11 +26,7 @@ public class User {
     //Start Builder----------------------------------
     public User(String username, String password) {
         this.username = username;
-        try {
-            this.password = encryptPass(password);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        this.password = password;
     }
     //Constructor End---------------------------------
 
@@ -43,15 +39,6 @@ public class User {
         return localDateTime;
     }
     //End Block Getters
-
-    //Encrypt password
-    public String encryptPass(String password) throws NoSuchAlgorithmException {
-        MessageDigest safeBox = MessageDigest.getInstance("MD5");
-        safeBox.update(password.getBytes(),0,password.length());
-        return new BigInteger(1,safeBox.digest()).toString(16);
-    }
-    //End encrypt password
-
 
     //ToString Block---------------------------------
     @Override
