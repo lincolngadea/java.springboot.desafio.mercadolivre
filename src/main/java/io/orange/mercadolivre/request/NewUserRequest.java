@@ -11,7 +11,7 @@ public class NewUserRequest {
 
     @NotBlank
     @Email
-    @UniqueValue(fieldName = "username", domainClass = User.class)
+    @UniqueValue(fieldName = "username", domainClass = User.class,message = "Não foi possível realizar um cadastro com esse email")
     private String username;
     @NotBlank
     @Size(min = 6)
@@ -32,7 +32,6 @@ public class NewUserRequest {
         this.username = user.getUsername();
     }
     //End Builder
-
 
     public String getUsername() {
         return username;
