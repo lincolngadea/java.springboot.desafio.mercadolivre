@@ -34,6 +34,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,7 +59,7 @@ class UserControllerTest {
     @Test
     @Transactional
     @DisplayName("Must create a user successfully")
-    @WithMockUser("fulano@ciclano.com.br")
+    @WithMockUser(value="fulano@ciclano.com.br")
     public void userControllerTest() throws Exception{
 
 
@@ -79,6 +80,7 @@ class UserControllerTest {
     @Test
     @DisplayName("Must return 400 error for duplicate email")
     @Transactional
+    @WithMockUser(value = "fulano@ciclano.com.br")
     public void noDuplicateEmail() throws Exception{
         String json = new ObjectMapper().writeValueAsString(new NewUserRequest("fulano@ciclano.com.br", "123456"));
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -92,5 +94,14 @@ class UserControllerTest {
         mvc
                 .perform(request)
                 .andExpect(status().isBadRequest());
+    }
+
+    @WithMockUser(value="fulano@ciclano.com.br")
+    @DisplayName(" Must authenticate user successfully ")
+    @Test
+    public void userAuthentication() throws Exception{
+
+        mvc.perform(get("/mercadolivre/usuario").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
