@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.orange.mercadolivre.entity.User;
 import io.orange.mercadolivre.request.NewUserRequest;
+import javassist.tools.web.BadHttpRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,6 +27,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -69,6 +73,22 @@ class UserControllerTest {
                 .andExpect(jsonPath("username").value("fulano@ciclano.com.br"));
 //                .andExpect(jsonPath("$[0].status").isNumber());
     }
-}
 
-//@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+    @Test
+    @DisplayName("Must return 400 error for duplicate email")
+    @Transactional
+    public void noDuplicateEmail() throws Exception{
+        String json = new ObjectMapper().writeValueAsString(new NewUserRequest("fulano@ciclano.com.br", "123456"));
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(ML_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isOk());
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest());
+    }
+}
