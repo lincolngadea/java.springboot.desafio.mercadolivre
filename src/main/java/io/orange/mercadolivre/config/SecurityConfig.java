@@ -1,5 +1,7 @@
 package io.orange.mercadolivre.config;
 
+import io.orange.mercadolivre.service.impl.UserLoginServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,19 +14,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private UserLoginServiceImpl userService;
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .passwordEncoder(passwordEncoder())
-                .withUser("fulano@ciclano.com.br")
-                .password(passwordEncoder().encode("123456"))
-                .roles("USER");
-
+        auth
+                .userDetailsService(userService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -32,13 +34,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers(HttpMethod.POST,"/mercadolivre/usuario")
-                    .authenticated()
-                    .antMatchers(HttpMethod.GET,"/mercadolivre/usuario/**")
-                    .authenticated()
-                    .antMatchers(HttpMethod.GET,"/mercadolivre")
+                .antMatchers(HttpMethod.POST, "/mercadolivre/usuario")
                     .permitAll()
-                .and()
+                .antMatchers(HttpMethod.GET, "/mercadolivre/usuario/**")
+                    .hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/mercadolivre")
+                    .permitAll()
+                .anyRequest().authenticated()
+        .and()
                 .httpBasic();
     }
 }

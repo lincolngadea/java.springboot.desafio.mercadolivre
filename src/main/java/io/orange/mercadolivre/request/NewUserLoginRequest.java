@@ -1,17 +1,20 @@
 package io.orange.mercadolivre.request;
 
-import io.orange.mercadolivre.entity.User;
+import io.orange.mercadolivre.entity.UserLogin;
 import io.orange.mercadolivre.validators.annotations.UniqueValue;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class NewUserRequest {
+public class NewUserLoginRequest {
 
     @NotBlank
     @Email
-    @UniqueValue(fieldName = "username", domainClass = User.class,message = "Não foi possível realizar um cadastro com esse email")
+    @UniqueValue(fieldName = "username", domainClass = UserLogin.class, message = "Não foi possível realizar um cadastro com esse email")
     private String username;
     @NotBlank
     @Size(min = 6)
@@ -19,16 +22,17 @@ public class NewUserRequest {
 
     //Default Builder for Framework use
     @Deprecated
-    public NewUserRequest(){}
+    public NewUserLoginRequest() {
+    }
 
     //Start Builder
+    public NewUserLoginRequest(@NotBlank @Email String username, @NotBlank @Size(min = 6) String password) {
 
-    public NewUserRequest(@NotBlank @Email String username, @NotBlank @Size(min = 6) String password) {
         this.username = username;
         this.password = password;
     }
 
-    public NewUserRequest(User user) {
+    public NewUserLoginRequest(UserLogin user) {
         this.username = user.getUsername();
     }
     //End Builder
@@ -42,8 +46,8 @@ public class NewUserRequest {
     }
 
     //Start User entity convert
-    public User toModel(){
-        return new User(this.username,this.password);
+    public UserLogin toModel() {
+        return new UserLogin(this.username, this.password);
     }
     //End entity convert
 

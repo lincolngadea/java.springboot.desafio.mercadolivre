@@ -1,5 +1,8 @@
 package io.orange.mercadolivre.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -10,8 +13,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "userLogin")
+public class UserLogin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,7 +27,7 @@ public class User {
     private LocalDateTime localDateTime = LocalDateTime.now();
 
     //Default builder for framework use.
-    public User(){}
+    public UserLogin(){}
 
     //Start Builder----------------------------------
 
@@ -33,14 +36,14 @@ public class User {
      * @param username is string in email format
      * @param password is string in clear text
      */
-    public User(@NotBlank String username, @NotBlank @Size(min = 6) String password) {
+    public UserLogin(@NotBlank String username, @NotBlank @Size(min = 6) String password) {
 
         Assert.isTrue(StringUtils.hasLength(username),"email cannot be blanck");
         Assert.isTrue(StringUtils.hasLength(password),"password cannot be blanck");
         Assert.isTrue(password.length() >= 6, "password must have at last 6 characters");
 
         this.username = username;
-        this.password = password;
+        this.password = new BCryptPasswordEncoder().encode(password);
     }
     //Constructor End---------------------------------
 
@@ -49,12 +52,16 @@ public class User {
     public Long getId() { return id; }
     public String getUsername() {return username;}
     public LocalDateTime getLocalDateTime() {return localDateTime;}
+
+    public String getPassword() {
+        return password;
+    }
     //End Block Getters
 
     //ToString Block---------------------------------
     @Override
     public String toString() {
-        return "User{" +
+        return "UserLogin{" +
                 "id=" + id +
                 ", login='" + username + '\'' +
                 ", localDateTime=" + localDateTime +

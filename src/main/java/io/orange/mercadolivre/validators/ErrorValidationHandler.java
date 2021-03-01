@@ -7,6 +7,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,6 +23,8 @@ public class ErrorValidationHandler {
     @Autowired
     private MessageSource messageSource;
 
+    private HttpRequestMethodNotSupportedException exception;
+
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -34,6 +37,20 @@ public class ErrorValidationHandler {
             ErrorFormDto error = new ErrorFormDto(e.getField(), message);
             dto.add(error);
         });
+
+        return dto;
+    }
+
+    @ResponseStatus(code = HttpStatus.METHOD_NOT_ALLOWED)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public List<ErrorFormDto> username(HttpRequestMethodNotSupportedException exception){
+
+        List<ErrorFormDto> dto = new ArrayList<>();
+        String message = exception.getMessage();
+        String method = exception.getMethod();
+
+        ErrorFormDto error = new ErrorFormDto(method,message);
+        dto.add(error);
 
         return dto;
     }
