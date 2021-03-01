@@ -39,6 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.GET,"/mercadolivre")
                     .permitAll()
                 .and()
-                .formLogin();
+                .httpBasic();
     }
 }
