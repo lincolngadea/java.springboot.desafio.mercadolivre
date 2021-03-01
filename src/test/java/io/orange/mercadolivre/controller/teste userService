@@ -1,9 +1,0 @@
- if(!username.equals("ciclano@fulano.com")){
-            throw new UsernameNotFoundException("Username not found!");
-        }
-        return User
-                .builder()
-                .username("ciclano@fulano.com")
-                .password(encoder.encode("123"))
-                .roles("USER","ADMIN")
-                .build();

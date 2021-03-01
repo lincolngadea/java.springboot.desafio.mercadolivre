@@ -37,11 +37,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/mercadolivre/usuario")
                     .permitAll()
                 .antMatchers(HttpMethod.GET, "/mercadolivre/usuario/**")
-                    .hasRole("USER")
+                    .authenticated()
                 .antMatchers(HttpMethod.GET, "/mercadolivre")
                     .permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
         .and()
-                .httpBasic();
+                .httpBasic()
+        .and()
+                .headers().frameOptions().sameOrigin();
     }
 }

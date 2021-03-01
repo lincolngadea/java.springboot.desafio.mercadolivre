@@ -1,7 +1,7 @@
 package io.orange.mercadolivre.service.impl;
 
-import io.orange.mercadolivre.controller.UserLoginController;
 import io.orange.mercadolivre.entity.UserLogin;
+import io.orange.mercadolivre.repository.UserLoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 @Service
 public class UserLoginServiceImpl implements UserDetailsService {
@@ -19,13 +21,16 @@ public class UserLoginServiceImpl implements UserDetailsService {
     private PasswordEncoder encoder;
 
     @Autowired
-    private UserLoginController userLoginController;
+    private UserLoginRepository userLoginRepository;
+
+    @PersistenceContext
+    private EntityManager manager;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserLogin userLogin = (UserLogin) userLoginController.listUser(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        Query byUsername = userLoginRepository.findByUsername(manager, username);
+        UserLogin userLogin = (UserLogin) byUsername.getSingleResult();
         return User
                 .builder()
                 .username(userLogin.getUsername())

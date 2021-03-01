@@ -1,6 +1,7 @@
 package io.orange.mercadolivre.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.orange.mercadolivre.repository.UserLoginRepository;
 import io.orange.mercadolivre.request.NewUserLoginRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -28,15 +32,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 
-@ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@WebMvcTest
 @AutoConfigureMockMvc
 @AutoConfigureDataJpa
+@SpringBootTest
 class UserLoginControllerTest {
 
     @PersistenceContext
     private EntityManager manager;
+
+    @Autowired
+    private UserLoginRepository listUsername;
 
     static String ML_API = "/mercadolivre/usuario";
 
@@ -46,7 +52,7 @@ class UserLoginControllerTest {
     @Test
     @Transactional
     @DisplayName("Must create a user successfully")
-    @WithMockUser(value="fulano@ciclano.com.br")
+    @WithUserDetails("teste@logado.com")
     public void userControllerTest() throws Exception{
 
 
@@ -67,7 +73,7 @@ class UserLoginControllerTest {
     @Test
     @DisplayName("Must return 400 error for duplicate email")
     @Transactional
-    @WithMockUser(value = "fulano@ciclano.com.br")
+    @WithUserDetails("teste@logado.com")
     public void noDuplicateEmail() throws Exception{
         String json = new ObjectMapper().writeValueAsString(new NewUserLoginRequest("fulano@ciclano.com.br", "123456"));
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -83,12 +89,12 @@ class UserLoginControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @WithMockUser(value="fulano@ciclano.com.br")
-    @DisplayName(" Must authenticate user successfully ")
+    @WithUserDetails("teste@logado.com")
+    @DisplayName("Must authenticate user successfully ")
     @Test
     public void userAuthentication() throws Exception{
 
-        mvc.perform(get("/mercadolivre/usuario").contentType(MediaType.APPLICATION_JSON))
+       mvc.perform(get("/mercadolivre/usuario/teste@logado.com").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 }
