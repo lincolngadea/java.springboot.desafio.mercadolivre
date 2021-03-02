@@ -1,7 +1,7 @@
 package io.orange.mercadolivre.controller;
 
-import io.orange.mercadolivre.entity.UserLogin;
-import io.orange.mercadolivre.request.NewUserLoginRequest;
+import io.orange.mercadolivre.model.UserLogin;
+import io.orange.mercadolivre.model.request.NewUserLoginRequest;
 import io.orange.mercadolivre.repository.UserLoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package io.orange.mercadolivre.validators.annotations;
+package io.orange.mercadolivre.config.validators.annotations;
 
 import org.springframework.util.Assert;
 
@@ -9,7 +9,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
 
-public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Object> {
+public class ExistsIdValidator implements ConstraintValidator<ExistsId, Object> {
 
     private String domainAttribute;
     private Class<?> klass;
@@ -17,18 +17,24 @@ public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Ob
     private EntityManager manager;
 
     @Override
-    public void initialize(UniqueValue params) {
+    public void initialize(ExistsId params) {
         domainAttribute = params.fieldName();
         klass = params.domainClass();
     }
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
+        if(value == null) {
+            return true;
+        }
+
         Query query = manager.createQuery("select 1 from "+klass.getName()+" where "+domainAttribute+"=:value");
         query.setParameter("value", value);
-        List<?> list = query.getResultList();
-        Assert.state(list.size() <=1, "Foi encontrado mais de um "+klass+" com o atributo "+domainAttribute+" = "+value);
 
-        return list.isEmpty();
+
+        List<?> list = query.getResultList();
+        Assert.isTrue(list.size() <=1, "aconteceu algo bizarro e você tem mais de um "+klass+" com o atributo "+domainAttribute+" com o valor = "+value);
+
+        return !list.isEmpty();
     }
 }

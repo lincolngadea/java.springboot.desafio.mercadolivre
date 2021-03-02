@@ -1,8 +1,6 @@
-package io.orange.mercadolivre.entity;
+package io.orange.mercadolivre.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -14,32 +12,34 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "userLogin")
-public class UserLogin {
+public class UserLogin{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
     private String username;
-    @NotBlank @Size(min = 6)
+    @NotBlank
+    @Size(min = 6)
     private String password;
-
     @NotNull
     private LocalDateTime localDateTime = LocalDateTime.now();
 
+
+
     //Default builder for framework use.
-    public UserLogin(){}
+    public UserLogin() {
+    }
 
     //Start Builder----------------------------------
 
     /**
-     *
      * @param username is string in email format
      * @param password is string in clear text
      */
     public UserLogin(@NotBlank String username, @NotBlank @Size(min = 6) String password) {
 
-        Assert.isTrue(StringUtils.hasLength(username),"email cannot be blanck");
-        Assert.isTrue(StringUtils.hasLength(password),"password cannot be blanck");
+        Assert.isTrue(StringUtils.hasLength(username), "email cannot be blanck");
+        Assert.isTrue(StringUtils.hasLength(password), "password cannot be blanck");
         Assert.isTrue(password.length() >= 6, "password must have at last 6 characters");
 
         this.username = username;
@@ -50,8 +50,11 @@ public class UserLogin {
 
     //Bock Getters------------------------------------
     public Long getId() { return id; }
-    public String getUsername() {return username;}
-    public LocalDateTime getLocalDateTime() {return localDateTime;}
+    public LocalDateTime getLocalDateTime() { return localDateTime; }
+
+    public String getUsername() {
+        return username;
+    }
 
     public String getPassword() {
         return password;
@@ -67,5 +70,6 @@ public class UserLogin {
                 ", localDateTime=" + localDateTime +
                 '}';
     }
+
 }
 

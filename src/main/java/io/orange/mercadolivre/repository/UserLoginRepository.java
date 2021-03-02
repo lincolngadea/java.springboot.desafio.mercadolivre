@@ -1,6 +1,6 @@
 package io.orange.mercadolivre.repository;
 
-import io.orange.mercadolivre.entity.UserLogin;
+import io.orange.mercadolivre.model.UserLogin;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;

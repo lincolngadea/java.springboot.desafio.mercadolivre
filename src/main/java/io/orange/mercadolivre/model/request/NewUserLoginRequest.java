@@ -1,10 +1,7 @@
-package io.orange.mercadolivre.request;
+package io.orange.mercadolivre.model.request;
 
-import io.orange.mercadolivre.entity.UserLogin;
-import io.orange.mercadolivre.validators.annotations.UniqueValue;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import io.orange.mercadolivre.config.validators.annotations.UniqueValue;
+import io.orange.mercadolivre.model.UserLogin;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package io.orange.mercadolivre.validators;
+package io.orange.mercadolivre.config.validators;
 
 public class ErrorFormDto {
 

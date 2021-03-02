@@ -1,4 +1,4 @@
-package io.orange.mercadolivre.validators.annotations;
+package io.orange.mercadolivre.config.validators.annotations;
 
 import org.hibernate.validator.constraints.CompositionType;
 import org.hibernate.validator.constraints.ConstraintComposition;

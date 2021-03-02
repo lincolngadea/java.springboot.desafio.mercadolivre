@@ -1,4 +1,4 @@
-package io.orange.mercadolivre.validators.annotations;
+package io.orange.mercadolivre.config.validators.annotations;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
