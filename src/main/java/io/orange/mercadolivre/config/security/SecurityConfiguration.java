@@ -50,6 +50,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/mercadolivre/produtos/{id:[0-9]+}").permitAll()
                 .antMatchers(HttpMethod.POST, "/mercadolivre/usuario").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/mercadolivre/category").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .cors()
@@ -57,6 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().headers().frameOptions().sameOrigin()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(tokenManager, usersService),
                         UsernamePasswordAuthenticationFilter.class)
