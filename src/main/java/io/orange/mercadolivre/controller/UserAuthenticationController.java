@@ -3,6 +3,7 @@ package io.orange.mercadolivre.controller;
 import io.orange.mercadolivre.config.security.TokenManager;
 import io.orange.mercadolivre.config.security.dto.AuthenticationTokenOutputDto;
 import io.orange.mercadolivre.config.security.dto.LoginInputDto;
+import io.orange.mercadolivre.utils.GenterateToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,13 +36,16 @@ public class UserAuthenticationController {
             Authentication authentication = authManager.authenticate(authenticationToken);
             String jwt = tokenManager.generateToken(authentication);
 
-            AuthenticationTokenOutputDto tokenResponse = new AuthenticationTokenOutputDto("Bearer ", jwt);
-            return ResponseEntity.ok(tokenResponse);
+            AuthenticationTokenOutputDto tokenResponse = new AuthenticationTokenOutputDto("Bearer", jwt);
 
+            new GenterateToken().toToken(tokenResponse.getToken());
+
+            return ResponseEntity.ok(tokenResponse);
         } catch (AuthenticationException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
+
 
     }
 }
