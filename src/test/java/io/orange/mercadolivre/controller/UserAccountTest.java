@@ -1,7 +1,7 @@
 package io.orange.mercadolivre.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.orange.mercadolivre.registerUser.NewUserLoginRequest;
+import io.orange.mercadolivre.registerUser.NewUserAccountRequest;
 import io.orange.mercadolivre.util.MockBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureDataJpa
 @SpringBootTest
-class UserLoginTest {
+class UserAccountTest {
 
     @PersistenceContext
     private EntityManager manager;
@@ -41,7 +41,7 @@ class UserLoginTest {
     @DisplayName("Must create a user successfully")
     public void returnUserCreate() throws Exception {
 
-        String json = new ObjectMapper().writeValueAsString(new NewUserLoginRequest("teste2@logado.com", "123456"));
+        String json = new ObjectMapper().writeValueAsString(new NewUserAccountRequest("teste2@logado.com", "123456"));
 
         mvc
                 .perform(MockBuilder.run(ML_API, json))
@@ -54,7 +54,7 @@ class UserLoginTest {
     @DisplayName("Must return 400 error for duplicate email")
     @Transactional
     public void noDuplicateEmail() throws Exception {
-        String json = new ObjectMapper().writeValueAsString(new NewUserLoginRequest("teste@logado.com", "123456"));
+        String json = new ObjectMapper().writeValueAsString(new NewUserAccountRequest("teste@logado.com", "123456"));
 
         mvc
                 .perform(MockBuilder.run(ML_API, json))

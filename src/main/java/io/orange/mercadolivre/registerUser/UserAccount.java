@@ -11,8 +11,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "userLogin")
-public class UserLogin {
+@Table(name = "useraccount")
+public class UserAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +26,7 @@ public class UserLogin {
 
 
     //Default builder for framework use.
-    public UserLogin() {
+    public UserAccount() {
     }
 
     //Start Builder----------------------------------
@@ -35,7 +35,7 @@ public class UserLogin {
      * @param username is string in email format
      * @param password is string in clear text
      */
-    public UserLogin(@NotBlank String username, @NotBlank @Size(min = 6) String password) {
+    public UserAccount(@NotBlank String username, @NotBlank @Size(min = 6) String password) {
 
         Assert.isTrue(StringUtils.hasLength(username), "email cannot be blanck");
         Assert.isTrue(StringUtils.hasLength(password), "password cannot be blanck");

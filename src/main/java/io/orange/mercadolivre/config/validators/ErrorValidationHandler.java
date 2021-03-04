@@ -34,8 +34,11 @@ public class ErrorValidationHandler {
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
         fieldErrors.forEach(e -> {
             String message = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-            ErrorFormDto error = new ErrorFormDto(e.getField(), message);
+            Object rejected = e.getRejectedValue();
+
+            ErrorFormDto error = new ErrorFormDto(e.getField(), message, rejected);
             dto.add(error);
+
         });
 
         return dto;
@@ -48,8 +51,9 @@ public class ErrorValidationHandler {
         List<ErrorFormDto> dto = new ArrayList<>();
         String message = exception.getMessage();
         String method = exception.getMethod();
+        Object rejected = null;
 
-        ErrorFormDto error = new ErrorFormDto(method,message);
+        ErrorFormDto error = new ErrorFormDto(method,message, null);
         dto.add(error);
 
         return dto;

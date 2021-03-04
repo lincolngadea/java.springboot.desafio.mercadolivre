@@ -2,12 +2,14 @@ package io.orange.mercadolivre.config.validators;
 
 public class ErrorFormDto {
 
-	private final String field;
-	private final String error;
+	private  String field;
+	private  String error;
+	private  Object rejectedError;
 
-	public ErrorFormDto(String field, String error) {
+	public ErrorFormDto(String field, String error, Object rejectedError) {
 		this.field = field;
 		this.error = error;
+		this.rejectedError = rejectedError;
 	}
 
 	public String getField() {
@@ -18,4 +20,7 @@ public class ErrorFormDto {
 		return error;
 	}
 
+	public Object getRejectedError() {
+		return rejectedError;
+	}
 }

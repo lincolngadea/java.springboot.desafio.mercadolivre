@@ -12,12 +12,12 @@ import java.util.List;
 
 public class LoggedUser implements UserDetails {
 
-    private UserLogin userLogin;
+    private UserAccount userAccount;
     private User springUserDetails;
 
-    public LoggedUser(@NotNull @Valid UserLogin userLogin) {
-        this.userLogin = userLogin;
-        springUserDetails = new User(userLogin.getUsername(), userLogin.getPassword(), List.of());
+    public LoggedUser(@NotNull @Valid UserAccount userAccount) {
+        this.userAccount = userAccount;
+        springUserDetails = new User(userAccount.getUsername(), userAccount.getPassword(), List.of());
     }
 
 
@@ -56,7 +56,15 @@ public class LoggedUser implements UserDetails {
     }
 
 
-    public UserLogin get() {
-        return userLogin;
+    public UserAccount get() {
+        return userAccount;
+    }
+
+    @Override
+    public String toString() {
+        return "LoggedUser{" +
+                "userAccount=" + userAccount +
+                ", springUserDetails=" + springUserDetails +
+                '}';
     }
 }

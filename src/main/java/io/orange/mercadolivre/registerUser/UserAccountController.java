@@ -7,25 +7,24 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/mercadolivre")
-public class UserLoginController {
+public class UserAccountController {
 
     @PersistenceContext
     private EntityManager manager;
 
     @Autowired
-    private UserLoginRepository listUsername;
+    private UserAccountRepository listUsername;
 
     //Registration Block User
     @Transactional
     @PostMapping("/usuario")
-    public ResponseEntity<?> saveUser(@RequestBody @Valid NewUserLoginRequest userRequest) {
-        UserLogin user = userRequest.toModel();
+    public ResponseEntity<?> saveUser(@RequestBody @Valid NewUserAccountRequest userRequest) {
+        UserAccount user = userRequest.toModel();
         manager.persist(user);
         return ResponseEntity.ok(user.toString());
     }
@@ -33,7 +32,7 @@ public class UserLoginController {
     @GetMapping("/usuario/{user}")
     @Transactional
     public Optional<?> listUser(@PathVariable("user") @Valid String username) {
-        Query byUsername = listUsername.findByUsername(manager, username);
-        return Optional.ofNullable(byUsername.getSingleResult());
+        UserAccount byUsername = listUsername.findByUsername(username).get();
+        return Optional.ofNullable(byUsername);
     }
 }

@@ -1,10 +1,7 @@
 package io.orange.mercadolivre.registerDetails;
 
-import io.orange.mercadolivre.registerProduct.Product;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "characteristic")
@@ -17,10 +14,6 @@ public class Details {
     private String title;
     @NotBlank
     private String description;
-    @ManyToOne
-    @JoinColumn(name = "idProduct", nullable = false)
-    @NotNull
-    private Product product;
 
     @Deprecated
     public Details() {
@@ -32,13 +25,20 @@ public class Details {
 
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public String toString() {
         return "Details{" +
                 "id=" + id +
                 ", name='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", product=" + product +
                 '}';
     }
 }

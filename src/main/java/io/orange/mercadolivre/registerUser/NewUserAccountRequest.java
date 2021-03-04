@@ -6,11 +6,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class NewUserLoginRequest {
+public class NewUserAccountRequest {
 
     @NotBlank
     @Email
-    @UniqueValue(fieldName = "username", domainClass = UserLogin.class, message = "Não foi possível realizar um cadastro com esse email")
+    @UniqueValue(fieldName = "username", domainClass = UserAccount.class, message = "Não foi possível realizar um cadastro com esse email")
     private String username;
     @NotBlank
     @Size(min = 6)
@@ -18,17 +18,17 @@ public class NewUserLoginRequest {
 
     //Default Builder for Framework use
     @Deprecated
-    public NewUserLoginRequest() {
+    public NewUserAccountRequest() {
     }
 
     //Start Builder
-    public NewUserLoginRequest(@NotBlank @Email String username, @NotBlank @Size(min = 6) String password) {
+    public NewUserAccountRequest(@NotBlank @Email String username, @NotBlank @Size(min = 6) String password) {
 
         this.username = username;
         this.password = password;
     }
 
-    public NewUserLoginRequest(UserLogin user) {
+    public NewUserAccountRequest(UserAccount user) {
         this.username = user.getUsername();
     }
     //End Builder
@@ -42,8 +42,8 @@ public class NewUserLoginRequest {
     }
 
     //Start User entity convert
-    public UserLogin toModel() {
-        return new UserLogin(this.username, this.password);
+    public UserAccount toModel() {
+        return new UserAccount(this.username, this.password);
     }
     //End entity convert
 
