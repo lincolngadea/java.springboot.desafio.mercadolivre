@@ -1,8 +1,7 @@
 package io.orange.mercadolivre.category;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.orange.mercadolivre.model.Category;
+import io.orange.mercadolivre.registerCategory.Category;
 import io.orange.mercadolivre.util.MockBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,17 +40,10 @@ public class CategoryTest {
     public void returnCategoryCreated() throws Exception {
 
         String json = new ObjectMapper().writeValueAsString(new Category("categoria"));
-
-        mvc.perform(MockBuilder.run(ML_API,json))
+        mvc.perform(MockBuilder.run(ML_API, json))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value("2"))
                 .andExpect(jsonPath("name").value("categoria"));
 
-//        System.out.println("TOKEN ============="+tokenResponse.getToken());
-//       String json = new ObjectMapper().writeValueAsString(new Category("categoria"));
-//
-
     }
-
-
 }

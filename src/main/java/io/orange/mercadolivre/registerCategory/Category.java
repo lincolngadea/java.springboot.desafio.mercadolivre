@@ -1,4 +1,4 @@
-package io.orange.mercadolivre.model;
+package io.orange.mercadolivre.registerCategory;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

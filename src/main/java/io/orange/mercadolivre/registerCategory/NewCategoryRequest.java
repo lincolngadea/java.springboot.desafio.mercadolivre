@@ -1,8 +1,7 @@
-package io.orange.mercadolivre.model.request;
+package io.orange.mercadolivre.registerCategory;
 
 import io.jsonwebtoken.lang.Assert;
 import io.orange.mercadolivre.config.validators.annotations.UniqueValue;
-import io.orange.mercadolivre.model.Category;
 
 import javax.persistence.EntityManager;
 import javax.validation.constraints.NotBlank;

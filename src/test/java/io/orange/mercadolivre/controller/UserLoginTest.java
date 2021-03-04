@@ -1,7 +1,7 @@
 package io.orange.mercadolivre.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.orange.mercadolivre.model.request.NewUserLoginRequest;
+import io.orange.mercadolivre.registerUser.NewUserLoginRequest;
 import io.orange.mercadolivre.util.MockBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package io.orange.mercadolivre.model;
+package io.orange.mercadolivre.registerUser;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

@@ -1,8 +1,5 @@
-package io.orange.mercadolivre.controller;
+package io.orange.mercadolivre.registerUser;
 
-import io.orange.mercadolivre.model.UserLogin;
-import io.orange.mercadolivre.model.request.NewUserLoginRequest;
-import io.orange.mercadolivre.repository.UserLoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,10 +24,10 @@ public class UserLoginController {
     //Registration Block User
     @Transactional
     @PostMapping("/usuario")
-    public ResponseEntity<UserLogin> saveUser(@RequestBody @Valid NewUserLoginRequest userRequest) {
+    public ResponseEntity<?> saveUser(@RequestBody @Valid NewUserLoginRequest userRequest) {
         UserLogin user = userRequest.toModel();
         manager.persist(user);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(user.toString());
     }
 
     @GetMapping("/usuario/{user}")

@@ -1,6 +1,6 @@
 package io.orange.mercadolivre.config.security;
 
-import io.orange.mercadolivre.service.UsersService;
+import io.orange.mercadolivre.registerUser.UsersService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/mercadolivre/category").authenticated()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .cors()
                 .and()

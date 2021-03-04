@@ -1,6 +1,6 @@
 package io.orange.mercadolivre.config.security;
 
-import io.orange.mercadolivre.service.UsersService;
+import io.orange.mercadolivre.registerUser.UsersService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

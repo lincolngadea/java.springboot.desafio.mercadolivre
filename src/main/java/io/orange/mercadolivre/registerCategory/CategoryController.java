@@ -1,7 +1,5 @@
-package io.orange.mercadolivre.controller;
+package io.orange.mercadolivre.registerCategory;
 
-import io.orange.mercadolivre.model.Category;
-import io.orange.mercadolivre.model.request.NewCategoryRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;

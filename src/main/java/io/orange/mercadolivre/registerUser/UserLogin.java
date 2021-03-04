@@ -1,4 +1,4 @@
-package io.orange.mercadolivre.model;
+package io.orange.mercadolivre.registerUser;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.Assert;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "userLogin")
-public class UserLogin{
+public class UserLogin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +23,6 @@ public class UserLogin{
     private String password;
     @NotNull
     private LocalDateTime localDateTime = LocalDateTime.now();
-
 
 
     //Default builder for framework use.
@@ -49,8 +48,13 @@ public class UserLogin{
 
 
     //Bock Getters------------------------------------
-    public Long getId() { return id; }
-    public LocalDateTime getLocalDateTime() { return localDateTime; }
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
 
     public String getUsername() {
         return username;

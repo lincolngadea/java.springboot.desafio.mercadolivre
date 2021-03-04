@@ -1,7 +1,6 @@
-package io.orange.mercadolivre.model.request;
+package io.orange.mercadolivre.registerUser;
 
 import io.orange.mercadolivre.config.validators.annotations.UniqueValue;
-import io.orange.mercadolivre.model.UserLogin;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

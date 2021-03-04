@@ -1,8 +1,8 @@
 package io.orange.mercadolivre.config.security;
 
-import io.orange.mercadolivre.model.UserLogin;
-import io.orange.mercadolivre.model.LoggedUser;
-import io.orange.mercadolivre.utils.UserDetailsMapper;
+import io.orange.mercadolivre.registerUser.UserLogin;
+import io.orange.mercadolivre.registerUser.LoggedUser;
+import io.orange.mercadolivre.registerUser.UserDetailsMapper;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 

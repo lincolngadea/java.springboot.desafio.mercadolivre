@@ -1,4 +1,4 @@
-package io.orange.mercadolivre.utils;
+package io.orange.mercadolivre.registerUser;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

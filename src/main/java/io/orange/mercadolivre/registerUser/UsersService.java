@@ -1,6 +1,5 @@
-package io.orange.mercadolivre.service;
+package io.orange.mercadolivre.registerUser;
 
-import io.orange.mercadolivre.utils.UserDetailsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
