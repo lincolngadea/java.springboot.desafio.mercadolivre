@@ -11,31 +11,21 @@ import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class NewProductRequest {
 
-    @NotBlank
-    private String name;
-    @NotNull
+    private @NotBlank String name;
+    private @NotNull @Min(0) Integer availableQuantity;
+    private @NotBlank @Column(length = 1000) String description;
+
     @DecimalMin(value = "1.0", inclusive = false)
-    @Positive
-    private BigDecimal price;
-    @NotNull
-    @Min(0)
-    private Integer availableQuantity;
-    @NotBlank
-    @Column(length = 1000)
-    private String description;
-    @NotNull
+    private @NotNull @Positive BigDecimal price;
+
     @ExistsId(domainClass = Category.class, fieldName = "id")
-    private Long idCategory;
-    @Size(min = 3)
-    @Valid
-    private List<NewDetailsRequest> details = new ArrayList<>();
+    private @NotNull Long idCategory;
+
+    private @Size(min = 3) @Valid List<NewDetailsRequest> details = new ArrayList<>();
 
 
     @Deprecated
@@ -58,12 +48,9 @@ public class NewProductRequest {
 
     }
 
+
     public String getName() {
         return name;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
     }
 
     public Integer getAvailableQuantity() {
@@ -74,6 +61,10 @@ public class NewProductRequest {
         return description;
     }
 
+    public BigDecimal getPrice() {
+        return price;
+    }
+
     public Long getIdCategory() {
         return idCategory;
     }
@@ -82,10 +73,16 @@ public class NewProductRequest {
         return details;
     }
 
+    public void setDetails(List<NewDetailsRequest> details) {
+        this.details = details;
+    }
+
     public Product toModel(EntityManager manager, UserAccount usernameAuth) {
-        @NotNull Category category = manager.find(Category.class,this.idCategory);
-        Assert.state(category!=null,"The category dont exists. id:"+this.idCategory);
-        return new Product(this.name,this.price,this.availableQuantity,this.description,category, usernameAuth);
+        Category category = manager.find(Category.class, idCategory);
+
+        Assert.state(category!=null,"The category dont exists. id:"+idCategory);
+
+        return new Product(name,price,availableQuantity,description,category,usernameAuth,details);
     }
 
     @Override

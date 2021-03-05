@@ -4,6 +4,7 @@ import io.orange.mercadolivre.registerDetails.RejectsRepeatedDetails;
 import io.orange.mercadolivre.registerUser.UserAccount;
 import io.orange.mercadolivre.registerUser.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,20 +25,21 @@ public class ProductController {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
-    @InitBinder
+    @InitBinder(value = "newProductRequest")
     public void init(WebDataBinder webDataBinder){
+
         webDataBinder.addValidators(new RejectsRepeatedDetails());
     }
 
     @PostMapping("/product")
     @Transactional
-    public String createProduct(@RequestBody @Valid NewProductRequest request){
+    public ResponseEntity<?> createProduct(@RequestBody @Valid NewProductRequest request){
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserAccount usernameAuth = userAccountRepository.findByUsername(auth.getName()).get();
 
         Product product = request.toModel(manager, usernameAuth);
         manager.persist(product);
-        return request.toString();
+        return ResponseEntity.ok().build();
     }
 }

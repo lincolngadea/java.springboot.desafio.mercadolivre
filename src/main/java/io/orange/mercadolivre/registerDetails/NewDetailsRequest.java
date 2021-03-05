@@ -1,6 +1,11 @@
 package io.orange.mercadolivre.registerDetails;
 
+import io.orange.mercadolivre.registerProduct.DetailProduct;
+import io.orange.mercadolivre.registerProduct.Product;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class NewDetailsRequest {
     @NotBlank
@@ -25,17 +30,14 @@ public class NewDetailsRequest {
         return description;
     }
 
-    public Details toModel(){
-        return new Details(this.title, this.description);
-    }
-
     @Override
     public String toString() {
         return "NewDetailsRequest{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
+                "description='" + description + '\'' +
                 '}';
     }
 
-
+    public DetailProduct toModel(@NotNull @Valid Product product) {
+        return  new DetailProduct(title,description,product);
+    }
 }
